@@ -9,12 +9,23 @@ function App() {
   const [play, setPlay]=useState(false);
   const[ val,setVal]=useState(null);
   const [color,setColor]=useState(null);
+
+  function handlePlay(e){
+    e.preventDefault();
+    if(val<=0){
+      return;
+    }
+    else{
+      setPlay(!play);
+    }
+
+  }
   return (
     <div className="App">
 
       {play ? <div className='playGround'> <Grids val={val} color={color}/> <Palette setColor={setColor} /></div>: <div><label>Please enter the number:</label>
       <input type='number' onChange={(e)=>setVal(e.target.value)}/>
-      <button onClick={()=>setPlay(!play)}>Play</button></div>}
+      <button onClick={handlePlay}>Play</button></div>}
       
     </div>
   );
