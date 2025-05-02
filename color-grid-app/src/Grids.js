@@ -16,25 +16,29 @@ const Grid=styled.div`
    
 
 export default function Grids({val,color}){
-
+    const[isDragging,setIsDragging]=useState(false);
+    
+    function handleMouseDown(e){
+        
+        setIsDragging(true);
    
+    }
 
-    
-    
     return (
         
         <Grid size={val}>
             {[...Array(val*val)].map(()=>
-                <GridItem color={color}/>
+                <GridItem handleMouseDown={handleMouseDown} isDragging={isDragging} setIsDragging={setIsDragging} color={color} />
             )}
         </Grid>
     );
 }
 
-function GridItem({color}){
+function GridItem({color,isDragging,setIsDragging,handleMouseDown}){
 
     
     const[boxcolor,setBoxcolor]=useState(null);
+    
     const Box=styled.div`
         
         aspect-ratio:1;
@@ -43,11 +47,33 @@ function GridItem({color}){
 
     `;
 
-    function handleClick(){
-        setBoxcolor(color);
+    
+    
+    function handleMouseUp(){
+
+        if(isDragging){
+            setBoxcolor(color);
+            setIsDragging(false);
+        }
+
     }
+    function handleMouseMove(){
+        
+        if(isDragging){
+            
+            setBoxcolor(color);
+            
+            
+        }
+    }
+        
+    function handleSetColor(){
+        setBoxcolor(color);
+    } 
+    
+
     
     return(
-        <Box onClick={handleClick}></Box>
+        <Box onMouseDown={handleMouseDown} onMouseMove={handleMouseMove} onMouseUp={handleMouseUp} onClick={handleSetColor}></Box>
     );
 }
